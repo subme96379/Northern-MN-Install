@@ -148,11 +148,11 @@ fi
 
 
 if [[ ("$ADVANCED" == "y" || "$ADVANCED" == "Y") ]]; then
-read -e -p "Name your user, be sure it is unique on your vps" : USER
+read -e -p "Name your user, be sure it is unique on your vps : " USER
 fi
 
 if [[ ("$ADVANCED" == "y" || "$ADVANCED" == "Y") ]]; then
-read -e -p "Which port should we use?" : PORT
+read -e -p "Which port should we use? : " PORT
 fi
 
 adduser $USER --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password > /dev/null
