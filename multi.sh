@@ -162,14 +162,6 @@ INSTALLERUSED="#Used Advanced Install"
 echo "" && echo 'Added user' && echo ""
 sleep 1
 
-else
-
-USER=root
-FAIL2BAN="y"
-UFW="y"
-BOOTSTRAP="n"
-INSTALLERUSED="#Used Basic Install"
-fi
 
 USERHOME=`eval echo "~$USER"`
 
