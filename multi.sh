@@ -1,302 +1,197 @@
 #!/bin/bash
 
-POSITIONAL=()
-while [[ $# -gt 0 ]]
-do
-key="$1"
+#Setup Variables
+GREEN='\033[0;32m'
+YELLOW='\033[0;93m'
+RED='\033[0;31m'
+NC='\033[0m'
 
-case $key in
-    -a|--advanced)
-    ADVANCED="y"
-    shift
-    ;;
-    -n|--normal)
-    ADVANCED="n"
-    FAIL2BAN="y"
-    UFW="y"
-    BOOTSTRAP="y"
-    shift
-    ;;
-    -i|--externalip)
-    EXTERNALIP="$2"
-    ARGUMENTIP="y"
-    shift
-    shift
-    ;;
-    -k|--privatekey)
-    KEY="$2"
-    shift
-    shift
-    ;;
-    -f|--fail2ban)
-    FAIL2BAN="y"
-    shift
-    ;;
-    --no-fail2ban)
-    FAIL2BAN="n"
-    shift
-    ;;
-    -u|--ufw)
-    UFW="y"
-    shift
-    ;;
-    --no-ufw)
-    UFW="n"
-    shift
-    ;;
-    -b|--bootstrap)
-    BOOTSTRAP="y"
-    shift
-    ;;
-    --no-bootstrap)
-    BOOTSTRAP="n"
-    shift
-    ;;
-    -h|--help)
-    cat << EOL
-
-NORT Masternode installer arguments:
-
-    -n --normal               : Run installer in normal mode
-    -a --advanced             : Run installer in advanced mode
-    -i --externalip <address> : Public IP address of VPS
-    -k --privatekey <key>     : Private key to use
-    -f --fail2ban             : Install Fail2Ban
-    --no-fail2ban             : Don't install Fail2Ban
-    -u --ufw                  : Install UFW
-    --no-ufw                  : Don't install UFW
-    -b --bootstrap            : Sync node using Bootstrap
-    --no-bootstrap            : Don't use Bootstrap
-    -h --help                 : Display this help text.
-
-EOL
-    exit
-    ;;
-    *)    # unknown option
-    POSITIONAL+=("$1") # save it in an array for later
-    shift
-    ;;
-esac
-done
-set -- "${POSITIONAL[@]}" # restore positional parameters
-
-clear
-
-# Set these to change the version of northern to install
-TARBALLURL="https://github.com/zabtc/Northern/releases/download/1.0.0/northern-1.0.0-x86_64-linux-gnu.tar.gz"
-TARBALLNAME="northern-1.0.0-x86_64-linux-gnu.tar.gz"
-BOOTSTRAPURL=""
-BOOTSTRAPARCHIVE=""
-BWKVERSION="1.0.0"
-
-#!/bin/bash
-
-# Check if we are root
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root." 1>&2
-   exit 1
+#Checking OS
+if [[ $(lsb_release -d) != *16.04* ]]; then
+  echo -e ${RED}"The operating system is not Ubuntu 16.04. You must be running on ubuntu 16.04."${NC}
+  exit 1
 fi
 
-# Install tools for dig and systemctl
-echo "Preparing installation..."
-apt-get install git dnsutils systemd -y > /dev/null 2>&1
+echo -e ${YELLOW}"Welcome to the Northern Automated Install, Durring this Process Please Hit Enter or Input What is Asked."${NC}
+echo
+echo -e ${YELLOW}"You Will See alot of code flashing across your screen, don't be alarmed it's supposed to do that. This process can take up to an hour and may appear to be stuck, but I can promise you it's not."${NC}
+echo
+echo -e ${GREEN}"Are you sure you want to install a Northern Masternode? type y/n followed by [ENTER]:"${NC}
+read AGREE
 
-# Check for systemd
-systemctl --version >/dev/null 2>&1 || { echo "systemd is required. Are you using Ubuntu 16.04?"  >&2; exit 1; }
-
-# CHARS is used for the loading animation further down.
-CHARS="/-\|"
-if [ -z "$EXTERNALIP" ]; then
-EXTERNALIP=`dig +short myip.opendns.com @resolver1.opendns.com`
-fi
-clear
-
-if [ -z "$ADVANCED" ]; then
-echo "
-
-    ___T_
-   | o o |
-   |__-__|
-   /| []|\\
- ()/|___|\()
-    |_|_|
-    /_|_\  ------- MASTERNODE INSTALLER v2 -------+
- |                                                  |
- | You can choose between two installation options: |::
- |              default and advanced.               |::
- |                                                  |::
- |  The advanced installation will install and run  |::
- |   the masternode under a non-root user. If you   |::
- |   don't know what that means, use the default    |::
- |               installation method.               |::
- |                                                  |::
- |  Otherwise, your masternode will not work, and   |::
- | the NORT Team CANNOT assist you in repairing  |::
- |         it. You will have to start over.         |::
- |                                                  |::
- +------------------------------------------------+::
-   ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-"
-
+if [[ $AGREE =~ "y" ]] ; then
+echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the first node:"${NC}
+read privkey
+echo -e ${GREEN}"Please Enter Your Masternodes Private Key for second node:"${NC}
+read privkey2
+echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the third node:"${NC}
+read privkey3
+echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 4th node:"${NC}
+read privkey4
+echo "Creating 4 Northern system users with no-login access:"
+sudo adduser --system --home /home/northern northern
+sudo adduser --system --home /home/northern2 northern2
+sudo adduser --system --home /home/northern3 northern3
+sudo adduser --system --home /home/northern4 northern4
+sudo apt-get -y update 
+sudo apt-get -y upgrade
+sudo apt-get -y install software-properties-common 
+sudo apt-get -y install build-essential  
+sudo apt-get -y install libtool autotools-dev autoconf automake  
+sudo apt-get -y install libssl-dev 
+sudo apt-get -y install libevent-dev 
+sudo apt-get -y install libboost-all-dev 
+sudo apt-get -y install pkg-config  
+sudo add-apt-repository ppa:bitcoin/bitcoin 
+sudo apt-get update 
+sudo apt-get -y install libdb4.8-dev 
+sudo apt-get -y install libdb4.8++-dev 
+sudo apt-get -y install libminiupnpc-dev libzmq3-dev libevent-pthreads-2.0-5 
+sudo apt-get -y install libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev
+sudo apt-get -y install libqrencode-dev bsdmainutils unzip
+#sudo apt install git 
+cd /var 
+sudo touch swap.img 
+sudo chmod 600 swap.img 
+sudo dd if=/dev/zero of=/var/swap.img bs=1024k count=2000 
+sudo mkswap /var/swap.img 
+sudo swapon /var/swap.img 
+sudo echo ' /var/swap.img none swap sw 0 0 ' >> /etc/fstab
+cd ~ 
+sudo mkdir /root/nort
+cd /root/nort
+wget https://github.com/zabtc/Northern/releases/download/1.0.0/northern-1.0.0-x86_64-linux-gnu.tar.gz
+tar -xzvf northern-1.0.0-x86_64-linux-gnu.tar.gz
+sudo mv /root/nort/northernd /root/nort/northern-cli /root/nort/northern-tx /usr/local/bin
+sudo chmod 755 -R  /usr/local/bin/northern*
+sudo mkdir /home/northern/.northern
+sudo touch /home/northern/.northern/northern.conf
+echo -e "${GREEN}Configuring Wallet for first node${NC}"
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern/.northern/northern.conf
+echo "server=1" >> /home/northern/.northern/northern.conf
+echo "daemon=1" >> /home/northern/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern/.northern/northern.conf
+echo "masternode=1" >> /home/northern/.northern/northern.conf
+echo "rpcport=6943" >> /home/northern/.northern/northern.conf
+echo "listen=0" >> /home/northern/.northern/northern.conf
+echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern/.northern/northern.conf
+echo "masternodeprivkey=$privkey" >> /home/northern/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern/.northern/northern.conf
 sleep 5
+echo -e "${GREEN}Configuring Wallet for second node${NC}"
+sudo mkdir /home/northern2/.northern
+sudo touch /home/northern2/.northern/northern.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern2/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern2/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern2/.northern/northern.conf
+echo "server=1" >> /home/northern2/.northern/northern.conf
+echo "daemon=1" >> /home/northern2/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern2/.northern/northern.conf
+echo "masternode=1" >> /home/northern2/.northern/northern.conf
+echo "rpcport=6944" >> /home/northern2/.northern/northern.conf
+echo "listen=0" >> /home/northern2/.northern/northern.conf
+echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern2/.northern/northern.conf
+echo "masternodeprivkey=$privkey2" >> /home/northern2/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern2/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern2/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern2/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern2/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern2/.northern/northern.conf
+sleep 5 
+echo -e "${GREEN}Configuring Wallet for third node${NC}"
+sudo mkdir /home/northern3/.northern
+sudo touch /home/northern3/.northern/northern.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern3/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern3/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern3/.northern/northern.conf
+echo "server=1" >> /home/northern3/.northern/northern.conf
+echo "daemon=1" >> /home/northern3/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern3/.northern/northern.conf
+echo "masternode=1" >> /home/northern3/.northern/northern.conf
+echo "rpcport=6945" >> /home/northern3/.northern/northern.conf
+echo "listen=0" >> /home/northern3/.northern/northern.conf
+echo "externalip=[$(hostname  -I | cut -f2 -d' ')]:6942" >> /home/northern3/.northern/northern.conf
+echo "masternodeprivkey=$privkey3" >> /home/northern3/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern3/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern3/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern3/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern3/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern3/.northern/northern.conf
+sleep 5 
+echo -e "${GREEN}Configuring Wallet for 4th node${NC}"
+sudo mkdir /home/northern4/.northern
+sudo touch /home/northern4/.northern/northern.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern4/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern4/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern4/.northern/northern.conf
+echo "server=1" >> /home/northern4/.northern/northern.conf
+echo "daemon=1" >> /home/northern4/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern4/.northern/northern.conf
+echo "masternode=1" >> /home/northern4/.northern/northern.conf
+echo "rpcport=6946" >> /home/northern4/.northern/northern.conf
+echo "listen=0" >> /home/northern4/.northern/northern.conf
+echo "externalip=[$(hostname  -I | cut -f2 -d' ')]:6942" >> /home/northern4/.northern/northern.conf
+echo "masternodeprivkey=$privkey4" >> /home/northern4/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern4/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern4/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern4/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern4/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern4/.northern/northern.conf
+sleep 5 
 fi
-
-if [ -z "$ADVANCED" ]; then
-read -e -p "Use the Advanced Installation? Type Y or y (recommended) : " ADVANCED
-fi
-
-
-if [[ ("$ADVANCED" == "y" || "$ADVANCED" == "Y") ]]; then
-read -e -p "Name your user, be sure it is unique on your vps : " USER
-fi
-
-if [[ ("$ADVANCED" == "y" || "$ADVANCED" == "Y") ]]; then
-read -e -p "Which port should we use? : " PORT
-fi
-
-adduser $USER --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password > /dev/null
-
-INSTALLERUSED="#Used Advanced Install"
-
-echo "" && echo 'Added user' && echo ""
-sleep 1
-
-
-USERHOME=`eval echo "~$USER"`
-
-if [ -z "$ARGUMENTIP" ]; then
-read -e -p "Server IP Address: " -i $EXTERNALIP -e IP
-fi
-
-if [ -z "$KEY" ]; then
-read -e -p "Masternode Private Key (e.g. 7edfjLCUzGczZi3JQw8GHp434R9kNY33eFyMGeKRymkB56G4324h # THE KEY YOU GENERATED EARLIER) : " KEY
-fi
-
-if [ -z "$FAIL2BAN" ]; then
-read -e -p "Install Fail2ban? [Y/n] : " FAIL2BAN
-fi
-
-if [ -z "$UFW" ]; then
-read -e -p "Install UFW and configure ports? [Y/n] : " UFW
-fi
-
-if [ -z "$BOOTSTRAP" ]; then
-read -e -p "Do you want to use our bootstrap file to speed the syncing process? [Y/n] : " BOOTSTRAP
-fi
-
-clear
-
-# Generate random passwords
-RPCUSER=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 12 | head -n 1)
-RPCPASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-
-# update packages and upgrade Ubuntu
-echo "Installing dependencies..."
-apt-get -qq update
-apt-get -qq upgrade
-apt-get -qq autoremove
-apt-get -qq install wget htop unzip
-apt-get -qq install build-essential && apt-get -qq install libtool autotools-dev autoconf libevent-pthreads-2.0-5 automake && apt-get -qq install libssl-dev && apt-get -qq install libboost-all-dev && apt-get -qq install software-properties-common && add-apt-repository -y ppa:bitcoin/bitcoin && apt update && apt-get -qq install libdb4.8-dev && apt-get -qq install libdb4.8++-dev && apt-get -qq install libminiupnpc-dev && apt-get -qq install libqt4-dev libprotobuf-dev protobuf-compiler && apt-get -qq install libqrencode-dev && apt-get -qq install git && apt-get -qq install pkg-config && apt-get -qq install libzmq3-dev
-apt-get -qq install aptitude
-apt-get -qq install libevent-dev
-
-# Install Fail2Ban
-if [[ ("$FAIL2BAN" == "y" || "$FAIL2BAN" == "Y" || "$FAIL2BAN" == "") ]]; then
-  aptitude -y -q install fail2ban
-  service fail2ban restart
-fi
-
-# Install UFW
-if [[ ("$UFW" == "y" || "$UFW" == "Y" || "$UFW" == "") ]]; then
-  apt-get -qq install ufw
-  ufw default deny incoming
-  ufw default allow outgoing
-  ufw allow ssh
-  ufw allow $PORT/tcp
-  yes | ufw enable
-fi
-
-# Install NORT daemon
-wget $TARBALLURL
-tar -xzvf $TARBALLNAME 
-rm $TARBALLNAME
-mv ./northernd /usr/local/bin
-mv ./northern-cli /usr/local/bin
-mv ./northern-tx /usr/local/bin
-rm -rf $TARBALLNAME
-
-# Create .northern directory
-mkdir $USERHOME/.northern
-
-# Install bootstrap file
-if [[ ("$BOOTSTRAP" == "y" || "$BOOTSTRAP" == "Y" || "$BOOTSTRAP" == "") ]]; then
-  echo "skipping"
-fi
-
-# Create northern.conf
-touch $USERHOME/.northern/northern.conf
-cat > $USERHOME/.northern/northern.conf << EOL
-${INSTALLERUSED}
-rpcuser=${RPCUSER}
-rpcpassword=${RPCPASSWORD}
-rpcallowip=127.0.0.1
-listen=1
-server=1
-daemon=1
-logtimestamps=1
-maxconnections=256
-externalip=${IP}
-bind=${IP}:${PORT}
-masternodeaddr=${IP}
-masternodeprivkey=${KEY}
-masternode=1
-addnode=207.246.69.246
-addnode=209.250.233.104
-addnode=45.77.82.101
-addnode=138.68.167.127
-addnode=45.77.218.53
-addnode=207.246.86.118
-addnode=128.199.44.28
-addnode=139.59.164.167
-addnode=139.59.177.56
-addnode=206.189.58.89
-addnode=207.154.202.113
-addnode=140.82.54.227
-EOL
-chmod 0600 $USERHOME/.northern/northern.conf
-chown -R $USER:$USER $USERHOME/.northern
-
-sleep 1
-
-cat > /etc/systemd/system/northern.service << EOL
-[Unit]
-Description=northernd
-After=network.target
-[Service]
-Type=forking
-User=${USER}
-WorkingDirectory=${USERHOME}
-ExecStart=/usr/local/bin/northernd -conf=${USERHOME}/.northern/northern.conf -datadir=${USERHOME}/.northern
-ExecStop=/usr/local/bin/northern-cli -conf=${USERHOME}/.northern/northern.conf -datadir=${USERHOME}/.northern stop
-Restart=on-abort
-[Install]
-WantedBy=multi-user.target
-EOL
-sudo systemctl enable northern.service
-sudo systemctl start northern.service
-
-clear
-
-cat << EOL
-
-Now, you need to start your masternode. Please go to your desktop wallet
-Click the Masternodes tab
-Click Start all at the bottom 
-EOL
-
-read -p "Press Enter to continue after you've done that. " -n1 -s
-
-clear
-
-echo "" && echo "Masternode setup completed." && echo ""
+echo "Syncing first node, please wait...";
+northernd -datadir=/home/northern/.northern -daemon
+sleep 10 
+until northern-cli -datadir=/home/northern/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
+echo -e ${GREEN}"First node is fully synced. You 1st masternode is running!"${NC}
+sleep 10
+echo "Syncing second node, please wait...";
+northernd -datadir=/home/northern2/.northern -daemon
+sleep 10 
+until northern-cli -datadir=/home/northern2/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
+echo -e ${GREEN}"Second node is fully synced. You second masternode is running!"${NC}
+sleep 10
+echo "Syncing third node, please wait...";
+northernd -datadir=/home/northern3/.northern -daemon
+sleep 10 
+until northern-cli -datadir=/home/northern3/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
+echo -e ${GREEN}"Third node is fully synced. You third masternode is running!"${NC}
+sleep 10
+echo "Syncing fourth node, please wait...";
+northernd -datadir=/home/northern4/.northern -daemon
+sleep 10 
+until northern-cli -datadir=/home/northern4/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
+echo -e ${GREEN}"Last node is fully synced. You fourth masternode is running!"${NC}
+echo ""
+echo -e ${GREEN}"Congrats! Your NORT Masternodes are now installed and started. Please wait from 10-20 minutes in order to give the masternode enough time to sync, then start the node from your wallet, Debug console option"${NC}
+echo "The END. You can close now the SSH terminal session";
