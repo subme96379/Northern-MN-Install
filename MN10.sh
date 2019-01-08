@@ -28,11 +28,14 @@ echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the third node:"$
 read privkey3
 echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 4th node:"${NC}
 read privkey4
-echo "Creating 4 Northern system users with no-login access:"
+echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 5th node:"${NC}
+read privkey5
+echo "Creating 5 Northern system users with no-login access:"
 sudo adduser --system --home /home/northern northern
 sudo adduser --system --home /home/northern2 northern2
 sudo adduser --system --home /home/northern3 northern3
 sudo adduser --system --home /home/northern4 northern4
+sudo adduser --system --home /home/northern4 northern5
 sudo apt-get -y update 
 sudo apt-get -y upgrade
 sudo apt-get -y install software-properties-common 
@@ -168,6 +171,32 @@ echo "addnode=149.56.4.243" >> /home/northern4/.northern/northern.conf
 echo "addnode=149.56.4.242" >> /home/northern4/.northern/northern.conf
 echo "addnode=149.56.4.241" >> /home/northern4/.northern/northern.conf
 sleep 5 
+echo -e "${GREEN}Configuring Wallet for 5th node${NC}"
+sudo mkdir /home/northern5/.northern
+sudo touch /home/northern5/.northern/northern.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern5/.northern/northern.conf
+echo "server=1" >> /home/northern5/.northern/northern.conf
+echo "daemon=1" >> /home/northern5/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern5/.northern/northern.conf
+echo "masternode=1" >> /home/northern5/.northern/northern.conf
+echo "rpcport=6946" >> /home/northern5/.northern/northern.conf
+echo "listen=0" >> /home/northern5/.northern/northern.conf
+echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern4/.northern/northern.conf
+echo "masternodeprivkey=$privkey5" >> /home/northern5/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern5/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern5/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern5/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern5/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern5/.northern/northern.conf
+sleep 5 
 fi
 echo "Syncing first node, please wait...";
 northernd -datadir=/home/northern/.northern -daemon
@@ -192,6 +221,12 @@ northernd -datadir=/home/northern4/.northern -daemon
 sleep 10 
 until northern-cli -datadir=/home/northern4/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
 echo -e ${GREEN}"Last node is fully synced. You fourth masternode is running!"${NC}
+sleep 10 
+echo "Syncing 5th node, please wait...";
+northernd -datadir=/home/northern5/.northern -daemon
+sleep 10 
+until northern-cli -datadir=/home/northern5/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
+echo -e ${GREEN}"5th node is fully synced. You third masternode is running!"${NC}
 echo ""
 echo -e ${GREEN}"Congrats! Your NORT Masternodes are now installed and started. Please wait from 10-20 minutes in order to give the masternode enough time to sync, then start the node from your wallet, Debug console option"${NC}
 echo "The END. You can close now the SSH terminal session";
