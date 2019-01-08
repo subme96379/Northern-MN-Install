@@ -35,7 +35,7 @@ sudo adduser --system --home /home/northern northern
 sudo adduser --system --home /home/northern2 northern2
 sudo adduser --system --home /home/northern3 northern3
 sudo adduser --system --home /home/northern4 northern4
-sudo adduser --system --home /home/northern4 northern5
+sudo adduser --system --home /home/northern5 northern5
 sudo apt-get -y update 
 sudo apt-get -y upgrade
 sudo apt-get -y install software-properties-common 
