@@ -30,16 +30,16 @@ echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 4th node:"${NC}
 read privkey4
 echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 5th node:"${NC}
 read privkey5
-echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 6th node:"${NC}
-read privkey6
-echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 7th node:"${NC}
-read privkey7
-echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 8th node:"${NC}
-read privkey8
-echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 9th node:"${NC}
-read privkey9
-echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 10th node:"${NC}
-read privkey10
+# echo -e ${GREEN}"Please Enter Your Masternodes Private Key for 6th node:"${NC}
+# read privkey6
+# echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 7th node:"${NC}
+# read privkey7
+#echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 8th node:"${NC}
+#read privkey8
+#echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 9th node:"${NC}
+#read privkey9
+#echo -e ${GREEN}"Please Enter Your Masternodes Private Key for the 10th node:"${NC}
+# read privkey10
 echo "Creating 10 Northern system users with no-login access:"
 sudo adduser --system --home /home/northern northern
 sudo adduser --system --home /home/northern2 northern2
