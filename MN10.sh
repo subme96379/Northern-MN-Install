@@ -249,7 +249,7 @@ echo "Syncing fourth node, please wait...";
 northernd -datadir=/home/northern4/.northern -daemon
 sleep 10 
 until northern-cli -datadir=/home/northern4/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
-echo -e ${GREEN}"Last node is fully synced. You fourth masternode is running!"${NC}
+echo -e ${GREEN}"Fourth node is fully synced. You fourth masternode is running!"${NC}
 sleep 10 
 echo "Syncing 5th node, please wait...";
 northernd -datadir=/home/northern5/.northern -daemon
@@ -261,7 +261,7 @@ echo "Syncing 6th node, please wait...";
 northernd -datadir=/home/northern6/.northern -daemon
 sleep 10 
 until northern-cli -datadir=/home/northern6/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
-echo -e ${GREEN}"6th node is fully synced. You 6th masternode is running!"${NC}
+echo -e ${GREEN}"Last node is fully synced. You 6th masternode is running!"${NC}
 echo ""
 echo -e ${GREEN}"Congrats! Your NORT Masternodes are now installed and started. Please wait from 10-20 minutes in order to give the masternode enough time to sync, then start the node from your wallet, Debug console option"${NC}
 echo "The END. You can close now the SSH terminal session";
