@@ -222,7 +222,7 @@ echo "server=1" >> /home/northern6/.northern/northern.conf
 echo "daemon=1" >> /home/northern6/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern6/.northern/northern.conf
 echo "masternode=1" >> /home/northern6/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern6/.northern/northern.conf
+echo "rpcport=6947" >> /home/northern6/.northern/northern.conf
 echo "listen=0" >> /home/northern6/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern6/.northern/northern.conf
 echo "masternodeprivkey=$privkey6" >> /home/northern6/.northern/northern.conf
@@ -248,7 +248,7 @@ echo "server=1" >> /home/northern7/.northern/northern.conf
 echo "daemon=1" >> /home/northern7/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern7/.northern/northern.conf
 echo "masternode=1" >> /home/northern7/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern7/.northern/northern.conf
+echo "rpcport=6948" >> /home/northern7/.northern/northern.conf
 echo "listen=0" >> /home/northern7/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern7/.northern/northern.conf
 echo "masternodeprivkey=$privkey7" >> /home/northern7/.northern/northern.conf
@@ -274,7 +274,7 @@ echo "server=1" >> /home/northern8/.northern/northern.conf
 echo "daemon=1" >> /home/northern8/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern8/.northern/northern.conf
 echo "masternode=1" >> /home/northern8/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern8/.northern/northern.conf
+echo "rpcport=6949" >> /home/northern8/.northern/northern.conf
 echo "listen=0" >> /home/northern8/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern8/.northern/northern.conf
 echo "masternodeprivkey=$privkey8" >> /home/northern8/.northern/northern.conf
@@ -300,7 +300,7 @@ echo "server=1" >> /home/northern9/.northern/northern.conf
 echo "daemon=1" >> /home/northern9/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern9/.northern/northern.conf
 echo "masternode=1" >> /home/northern9/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern9/.northern/northern.conf
+echo "rpcport=6950" >> /home/northern9/.northern/northern.conf
 echo "listen=0" >> /home/northern9/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern9/.northern/northern.conf
 echo "masternodeprivkey=$privkey9" >> /home/northern9/.northern/northern.conf
@@ -316,6 +316,32 @@ echo "addnode=149.56.4.243" >> /home/northern9/.northern/northern.conf
 echo "addnode=149.56.4.242" >> /home/northern9/.northern/northern.conf
 echo "addnode=149.56.4.241" >> /home/northern9/.northern/northern.conf
 sleep 5 
+echo -e "${GREEN}Configuring Wallet for 10th node${NC}"
+sudo mkdir /home/northern10/.northern
+sudo touch /home/northern10/.northern/northern.conf
+echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern10/.northern/northern.conf
+echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern10/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern10/.northern/northern.conf
+echo "server=1" >> /home/northern10/.northern/northern.conf
+echo "daemon=1" >> /home/northern10/.northern/northern.conf
+echo "maxconnections=250" >> /home/northern10/.northern/northern.conf
+echo "masternode=1" >> /home/northern10/.northern/northern.conf
+echo "rpcport=6951" >> /home/northern10/.northern/northern.conf
+echo "listen=0" >> /home/northern10/.northern/northern.conf
+echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern10/.northern/northern.conf
+echo "masternodeprivkey=$privkey10" >> /home/northern10/.northern/northern.conf
+echo "addnode=209.250.233.104" >> /home/northern10/.northern/northern.conf
+echo "addnode=45.77.82.101" >> /home/northern10/.northern/northern.conf
+echo "addnode=138.68.167.127" >> /home/northern10/.northern/northern.conf
+echo "addnode=207.246.86.118" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.247" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.246" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.245" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.244" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.243" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.242" >> /home/northern10/.northern/northern.conf
+echo "addnode=149.56.4.241" >> /home/northern10/.northern/northern.conf
+sleep 5
 fi
 echo "Syncing first node, please wait...";
 northernd -datadir=/home/northern/.northern -daemon
