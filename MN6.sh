@@ -205,7 +205,7 @@ sudo mkdir /home/northern6/.northern
 sudo touch /home/northern6/.northern/northern.conf
 echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/northern.conf
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/northern.conf
-echo "rpcallowip=127.0.0.1" >> /home/northern5/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern6/.northern/northern.conf
 echo "server=1" >> /home/northern6/.northern/northern.conf
 echo "daemon=1" >> /home/northern6/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern6/.northern/northern.conf
