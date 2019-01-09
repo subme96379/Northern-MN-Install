@@ -179,12 +179,12 @@ sudo mkdir /home/northern5/.northern
 sudo touch /home/northern5/.northern/northern.conf
 echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/northern.conf
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/northern.conf
-echo "rpcallowip=127.0.0.1/8" >> /home/northern5/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern5/.northern/northern.conf
 echo "server=1" >> /home/northern5/.northern/northern.conf
 echo "daemon=1" >> /home/northern5/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern5/.northern/northern.conf
 echo "masternode=1" >> /home/northern5/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern5/.northern/northern.conf
+echo "rpcport=6944" >> /home/northern5/.northern/northern.conf
 echo "listen=0" >> /home/northern5/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern5/.northern/northern.conf
 echo "masternodeprivkey=$privkey5" >> /home/northern5/.northern/northern.conf
@@ -205,12 +205,12 @@ sudo mkdir /home/northern6/.northern
 sudo touch /home/northern6/.northern/northern.conf
 echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/northern.conf
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/northern.conf
-echo "rpcallowip=127.0.0.1/8" >> /home/northern6/.northern/northern.conf
+echo "rpcallowip=127.0.0.1" >> /home/northern6/.northern/northern.conf
 echo "server=1" >> /home/northern6/.northern/northern.conf
 echo "daemon=1" >> /home/northern6/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern6/.northern/northern.conf
 echo "masternode=1" >> /home/northern6/.northern/northern.conf
-echo "rpcport=6946" >> /home/northern6/.northern/northern.conf
+echo "rpcport=6944" >> /home/northern6/.northern/northern.conf
 echo "listen=0" >> /home/northern6/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern6/.northern/northern.conf
 echo "masternodeprivkey=$privkey6" >> /home/northern6/.northern/northern.conf
