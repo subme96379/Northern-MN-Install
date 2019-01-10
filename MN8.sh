@@ -216,7 +216,7 @@ echo "server=1" >> /home/northern6/.northern/northern.conf
 echo "daemon=1" >> /home/northern6/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern6/.northern/northern.conf
 echo "masternode=1" >> /home/northern6/.northern/northern.conf
-echo "rpcport=6947" >> /home/northern6/.northern/northern.conf
+echo "port=6947" >> /home/northern6/.northern/northern.conf
 echo "listen=0" >> /home/northern6/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern6/.northern/northern.conf
 echo "masternodeprivkey=$privkey6" >> /home/northern6/.northern/northern.conf
@@ -268,7 +268,7 @@ echo "server=1" >> /home/northern8/.northern/northern.conf
 echo "daemon=1" >> /home/northern8/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern8/.northern/northern.conf
 echo "masternode=1" >> /home/northern8/.northern/northern.conf
-echo "rpcport=6949" >> /home/northern8/.northern/northern.conf
+echo "port=6949" >> /home/northern8/.northern/northern.conf
 echo "listen=0" >> /home/northern8/.northern/northern.conf
 echo "externalip=$(hostname  -I | cut -f1 -d' '):6942" >> /home/northern8/.northern/northern.conf
 echo "masternodeprivkey=$privkey8" >> /home/northern8/.northern/northern.conf
@@ -316,19 +316,19 @@ until northern-cli -datadir=/home/northern5/.northern mnsync status | grep -m 1 
 echo -e ${GREEN}"5th node is fully synced. You 5th masternode is running!"${NC}
 sleep 10 
 echo "Syncing 6th node, please wait...";
-northernd -datadir=/home/northern6/.northern -daemon
+northernd -datadir=/home/northern6/.northern -daemon -listen=0
 sleep 10 
 until northern-cli -datadir=/home/northern6/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
 echo -e ${GREEN}"6th node is fully synced. You 6th masternode is running!"${NC}
 sleep 10 
 echo "Syncing 7th node, please wait...";
-northernd -datadir=/home/northern7/.northern -daemon
+northernd -datadir=/home/northern7/.northern -daemon -listen=0
 sleep 10 
 until northern-cli -datadir=/home/northern7/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
 echo -e ${GREEN}"7th node is fully synced. You 7th masternode is running!"${NC}
 sleep 10 
 echo "Syncing 8th node, please wait...";
-northernd -datadir=/home/northern8/.northern -daemon
+northernd -datadir=/home/northern8/.northern -daemon -listen=0
 sleep 10 
 until northern-cli -datadir=/home/northern8/.northern mnsync status | grep -m 1 '"IsBlockchainSynced": true,'; do sleep 1 ; done > /dev/null 2>&1
 echo -e ${GREEN}"Last node is fully synced. You 8th masternode is running!"${NC}
