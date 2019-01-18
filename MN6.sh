@@ -68,6 +68,13 @@ sudo mkdir /root/nort
 cd /root/nort
 wget https://github.com/zabtc/Northern/releases/download/2.2.0/northern-2.2.0-x86_64-linux-gnu.tar.gz
 tar -xzvf northern-2.2.0-x86_64-linux-gnu.tar.gz
+sudo apt-get install -y ufw
+sudo ufw allow ssh/tcp 
+sudo ufw limit ssh/tcp 
+sudo ufw logging on 
+echo "y" | sudo ufw enable 
+sudo ufw status 
+sudo ufw allow 6942/tcp 
 sudo mv /root/nort/northernd /root/nort/northern-cli /root/nort/northern-tx /usr/local/bin
 sudo chmod 755 -R  /usr/local/bin/northern*
 sudo mkdir /home/northern/.northern
@@ -78,6 +85,7 @@ echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern/.norther
 echo "rpcallowip=127.0.0.1" >> /home/northern/.northern/northern.conf
 echo "server=1" >> /home/northern/.northern/northern.conf
 echo "daemon=1" >> /home/northern/.northern/northern.conf
+echo "staking=1" >> /home/northern/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern/.northern/northern.conf
 echo "masternode=1" >> /home/northern/.northern/northern.conf
 echo "rpcport=6943" >> /home/northern/.northern/northern.conf
@@ -104,6 +112,7 @@ echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern2/.northe
 echo "rpcallowip=127.0.0.1" >> /home/northern2/.northern/northern.conf
 echo "server=1" >> /home/northern2/.northern/northern.conf
 echo "daemon=1" >> /home/northern2/.northern/northern.conf
+echo "staking=1" >> /home/northern2/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern2/.northern/northern.conf
 echo "masternode=1" >> /home/northern2/.northern/northern.conf
 echo "rpcport=6944" >> /home/northern2/.northern/northern.conf
@@ -129,6 +138,7 @@ echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern3/.northern/n
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern3/.northern/northern.conf
 echo "rpcallowip=127.0.0.1" >> /home/northern3/.northern/northern.conf
 echo "server=1" >> /home/northern3/.northern/northern.conf
+echo "staking=1" >> /home/northern3/.northern/northern.conf
 echo "daemon=1" >> /home/northern3/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern3/.northern/northern.conf
 echo "masternode=1" >> /home/northern3/.northern/northern.conf
@@ -155,6 +165,7 @@ echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern4/.northern/n
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern4/.northern/northern.conf
 echo "rpcallowip=127.0.0.1" >> /home/northern4/.northern/northern.conf
 echo "server=1" >> /home/northern4/.northern/northern.conf
+echo "staking=1" >> /home/northern4/.northern/northern.conf
 echo "daemon=1" >> /home/northern4/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern4/.northern/northern.conf
 echo "masternode=1" >> /home/northern4/.northern/northern.conf
@@ -181,6 +192,7 @@ echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/n
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern5/.northern/northern.conf
 echo "rpcallowip=127.0.0.1" >> /home/northern5/.northern/northern.conf
 echo "server=1" >> /home/northern5/.northern/northern.conf
+echo "staking=1" >> /home/northern5/.northern/northern.conf
 echo "daemon=1" >> /home/northern5/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern5/.northern/northern.conf
 echo "masternode=1" >> /home/northern5/.northern/northern.conf
@@ -207,6 +219,7 @@ echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/n
 echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> /home/northern6/.northern/northern.conf
 echo "rpcallowip=127.0.0.1" >> /home/northern6/.northern/northern.conf
 echo "server=1" >> /home/northern6/.northern/northern.conf
+echo "staking=1" >> /home/northern6/.northern/northern.conf
 echo "daemon=1" >> /home/northern6/.northern/northern.conf
 echo "maxconnections=250" >> /home/northern6/.northern/northern.conf
 echo "masternode=1" >> /home/northern6/.northern/northern.conf
