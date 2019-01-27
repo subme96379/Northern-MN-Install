@@ -66,8 +66,8 @@ sudo echo ' /var/swap.img none swap sw 0 0 ' >> /etc/fstab
 cd ~ 
 sudo mkdir /root/nort
 cd /root/nort
-wget https://github.com/zabtc/Northern/releases/download/2.2.0/northern-2.2.0-x86_64-linux-gnu.tar.gz
-tar -xzvf northern-2.2.0-x86_64-linux-gnu.tar.gz
+wget https://github.com/zabtc/Northern/releases/download/2.4.0/northern-2.4.0-x86_64-linux-gnu.tar.gz
+tar -xzvf northern-2.4.0-x86_64-linux-gnu.tar.gz
 sudo apt-get install -y ufw
 sudo ufw allow ssh/tcp 
 sudo ufw limit ssh/tcp 
